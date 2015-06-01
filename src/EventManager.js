@@ -817,9 +817,9 @@ function EventManager(options) { // assumed to be a calendar
 			// timezone offsets, strip the zone.
 			if (isAmbigTimezone) {
 				if (+dateDelta || +durationDelta) {
-					newStart;
+					newStart.stripZone();
 					if (newEnd) {
-						newEnd;
+						newEnd.stripZone();
 					}
 				}
 			}

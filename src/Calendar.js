@@ -200,7 +200,7 @@ function Calendar(element, instanceOptions) {
 		}
 
 		if (t.getIsAmbigTimezone()) {
-			end; // we don't know what the tzo should be
+			end.stripZone(); // we don't know what the tzo should be
 		}
 
 		return end;

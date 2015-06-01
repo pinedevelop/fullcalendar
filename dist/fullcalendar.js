@@ -531,7 +531,7 @@ function Calendar(element, instanceOptions) {
 		}
 
 		if (t.getIsAmbigTimezone()) {
-			end; // we don't know what the tzo should be
+			end.stripZone(); // we don't know what the tzo should be
 		}
 
 		return end;
@@ -2142,9 +2142,9 @@ function EventManager(options) { // assumed to be a calendar
 			// timezone offsets, strip the zone.
 			if (isAmbigTimezone) {
 				if (+dateDelta || +durationDelta) {
-					newStart;
+					newStart.stripZone();
 					if (newEnd) {
-						newEnd;
+						newEnd.stripZone();
 					}
 				}
 			}
@@ -2672,9 +2672,9 @@ function ResourceManager(options) {
       // timezone offsets, strip the zone.
       if (isAmbigTimezone) {
         if (+dateDelta || +durationDelta) {
-          newStart;
+          newStart.stripZone();
           if (newEnd) {
-            newEnd;
+            newEnd.stripZone();
           }
         }
       }
@@ -3436,7 +3436,7 @@ function commonlyAmbiguate(inputs, preserveTime) {
 			outputs[i].startOf('day');
 		}
 		else if (anyAmbigZone) {
-			outputs[i];
+			outputs[i].stripZone();
 		}
 	}
 
