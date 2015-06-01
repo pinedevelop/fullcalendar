@@ -289,9 +289,9 @@ function ResourceManager(options) {
       // timezone offsets, strip the zone.
       if (isAmbigTimezone) {
         if (+dateDelta || +durationDelta) {
-          newStart.stripZone();
+          newStart;
           if (newEnd) {
-            newEnd.stripZone();
+            newEnd;
           }
         }
       }

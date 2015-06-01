@@ -19,8 +19,8 @@ $.extend(Grid.prototype, {
 	// When `intervalStart` and `intervalEnd` are specified, intersect the annotations with that interval.
 	// Otherwise, let the subclass decide how it wants to slice the segments over the grid.
 	annotationToSegs: function(annotation, intervalStart, intervalEnd) {
-		var annotationStart = annotation.start.clone().stripZone(); // normalize
-		var annotationEnd = this.view.calendar.getEventEnd(annotation).stripZone(); // compute (if necessary) and normalize
+		var annotationStart = annotation.start.clone(); // normalize
+		var annotationEnd = this.view.calendar.getEventEnd(annotation); // compute (if necessary) and normalize
 		var segs;
 		var i, seg;
 

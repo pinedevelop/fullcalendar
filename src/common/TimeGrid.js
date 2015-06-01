@@ -142,8 +142,8 @@ $.extend(TimeGrid.prototype, {
 		var colStart, colEnd;
 
 		// normalize
-		rangeStart = rangeStart.clone().stripZone();
-		rangeEnd = rangeEnd.clone().stripZone();
+		rangeStart = rangeStart.clone();
+		rangeEnd = rangeEnd.clone();
 
 		for (col = 0; col < view.colCnt; col++) {
 			cellDate = view.cellToDate(0, col); // use the View's cell system for this
@@ -228,7 +228,7 @@ $.extend(TimeGrid.prototype, {
 	computeDateTop: function(date, startOfDayDate) {
 		return this.computeTimeTop(
 			moment.duration(
-				date.clone().stripZone() - startOfDayDate.clone().startOf('day')
+				date.clone() - startOfDayDate.clone().startOf('day')
 			)
 		);
 	},

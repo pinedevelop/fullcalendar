@@ -583,8 +583,8 @@ $.extend(Grid.prototype, {
 			event = events[i];
 
 			// make copies and normalize by stripping timezone
-			eventStart = event.start.clone().stripZone();
-			eventEnd = calendar.getEventEnd(event).stripZone();
+			eventStart = event.start.clone();
+			eventEnd = calendar.getEventEnd(event);
 
 			ranges.push({
 				event: event,
@@ -603,8 +603,8 @@ $.extend(Grid.prototype, {
 	// The range objects will cover all the time NOT covered by the events.
 	eventsToInverseRanges: function(events) {
 		var view = this.view;
-		var viewStart = view.start.clone().stripZone(); // normalize timezone
-		var viewEnd = view.end.clone().stripZone(); // normalize timezone
+		var viewStart = view.start.clone(); // normalize timezone
+		var viewEnd = view.end.clone(); // normalize timezone
 		var normalRanges = this.eventsToNormalRanges(events); // will give us normalized dates we can use w/o copies
 		var inverseRanges = [];
 		var event0 = events[0]; // assign this to each range's `.event`

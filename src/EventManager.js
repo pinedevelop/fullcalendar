@@ -62,8 +62,8 @@ function EventManager(options) { // assumed to be a calendar
 	function isFetchNeeded(start, end) {
 		return !rangeStart || // nothing has been fetched yet?
 			// or, a part of the new range is outside of the old range? (after normalizing)
-			start.clone().stripZone() < rangeStart.clone().stripZone() ||
-			end.clone().stripZone() > rangeEnd.clone().stripZone();
+			start.clone() < rangeStart.clone() ||
+			end.clone() > rangeEnd.clone();
 	}
 	
 	
@@ -817,9 +817,9 @@ function EventManager(options) { // assumed to be a calendar
 			// timezone offsets, strip the zone.
 			if (isAmbigTimezone) {
 				if (+dateDelta || +durationDelta) {
-					newStart.stripZone();
+					newStart;
 					if (newEnd) {
-						newEnd.stripZone();
+						newEnd;
 					}
 				}
 			}
@@ -947,8 +947,8 @@ function EventManager(options) { // assumed to be a calendar
 		var otherOverlap;
 
 		// normalize. fyi, we're normalizing in too many places :(
-		start = start.clone().stripZone();
-		end = end.clone().stripZone();
+		start = start.clone();
+		end = end.clone();
 
 		// the range must be fully contained by at least one of produced constraint events
 		if (constraint != null) {
@@ -1029,8 +1029,8 @@ function EventManager(options) { // assumed to be a calendar
 	// Is the event's date ranged fully contained by the given range?
 	// start/end already assumed to have stripped zones :(
 	function eventContainsRange(event, start, end) {
-		var eventStart = event.start.clone().stripZone();
-		var eventEnd = t.getEventEnd(event).stripZone();
+		var eventStart = event.start.clone();
+		var eventEnd = t.getEventEnd(event);
 
 		return start >= eventStart && end <= eventEnd;
 	}
@@ -1039,8 +1039,8 @@ function EventManager(options) { // assumed to be a calendar
 	// Does the event's date range intersect with the given range?
 	// start/end already assumed to have stripped zones :(
 	function eventIntersectsRange(event, start, end) {
-		var eventStart = event.start.clone().stripZone();
-		var eventEnd = t.getEventEnd(event).stripZone();
+		var eventStart = event.start.clone();
+		var eventEnd = t.getEventEnd(event);
 
 		return start < eventEnd && end > eventStart;
 	}

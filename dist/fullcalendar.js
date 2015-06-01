@@ -531,7 +531,7 @@ function Calendar(element, instanceOptions) {
 		}
 
 		if (t.getIsAmbigTimezone()) {
-			end.stripZone(); // we don't know what the tzo should be
+			end; // we don't know what the tzo should be
 		}
 
 		return end;
@@ -1387,8 +1387,8 @@ function EventManager(options) { // assumed to be a calendar
 	function isFetchNeeded(start, end) {
 		return !rangeStart || // nothing has been fetched yet?
 			// or, a part of the new range is outside of the old range? (after normalizing)
-			start.clone().stripZone() < rangeStart.clone().stripZone() ||
-			end.clone().stripZone() > rangeEnd.clone().stripZone();
+			start.clone() < rangeStart.clone() ||
+			end.clone() > rangeEnd.clone();
 	}
 
 
@@ -2142,9 +2142,9 @@ function EventManager(options) { // assumed to be a calendar
 			// timezone offsets, strip the zone.
 			if (isAmbigTimezone) {
 				if (+dateDelta || +durationDelta) {
-					newStart.stripZone();
+					newStart;
 					if (newEnd) {
-						newEnd.stripZone();
+						newEnd;
 					}
 				}
 			}
@@ -2272,8 +2272,8 @@ function EventManager(options) { // assumed to be a calendar
 		var otherOverlap;
 
 		// normalize. fyi, we're normalizing in too many places :(
-		start = start.clone().stripZone();
-		end = end.clone().stripZone();
+		start = start.clone();
+		end = end.clone();
 
 		// the range must be fully contained by at least one of produced constraint events
 		if (constraint != null) {
@@ -2354,8 +2354,8 @@ function EventManager(options) { // assumed to be a calendar
 	// Is the event's date ranged fully contained by the given range?
 	// start/end already assumed to have stripped zones :(
 	function eventContainsRange(event, start, end) {
-		var eventStart = event.start.clone().stripZone();
-		var eventEnd = t.getEventEnd(event).stripZone();
+		var eventStart = event.start.clone();
+		var eventEnd = t.getEventEnd(event);
 
 		return start >= eventStart && end <= eventEnd;
 	}
@@ -2364,8 +2364,8 @@ function EventManager(options) { // assumed to be a calendar
 	// Does the event's date range intersect with the given range?
 	// start/end already assumed to have stripped zones :(
 	function eventIntersectsRange(event, start, end) {
-		var eventStart = event.start.clone().stripZone();
-		var eventEnd = t.getEventEnd(event).stripZone();
+		var eventStart = event.start.clone();
+		var eventEnd = t.getEventEnd(event);
 
 		return start < eventEnd && end > eventStart;
 	}
@@ -2672,9 +2672,9 @@ function ResourceManager(options) {
       // timezone offsets, strip the zone.
       if (isAmbigTimezone) {
         if (+dateDelta || +durationDelta) {
-          newStart.stripZone();
+          newStart;
           if (newEnd) {
-            newEnd.stripZone();
+            newEnd;
           }
         }
       }
@@ -3436,7 +3436,7 @@ function commonlyAmbiguate(inputs, preserveTime) {
 			outputs[i].startOf('day');
 		}
 		else if (anyAmbigZone) {
-			outputs[i].stripZone();
+			outputs[i];
 		}
 	}
 
@@ -5807,8 +5807,8 @@ $.extend(Grid.prototype, {
 			event = events[i];
 
 			// make copies and normalize by stripping timezone
-			eventStart = event.start.clone().stripZone();
-			eventEnd = calendar.getEventEnd(event).stripZone();
+			eventStart = event.start.clone();
+			eventEnd = calendar.getEventEnd(event);
 
 			ranges.push({
 				event: event,
@@ -5827,8 +5827,8 @@ $.extend(Grid.prototype, {
 	// The range objects will cover all the time NOT covered by the events.
 	eventsToInverseRanges: function(events) {
 		var view = this.view;
-		var viewStart = view.start.clone().stripZone(); // normalize timezone
-		var viewEnd = view.end.clone().stripZone(); // normalize timezone
+		var viewStart = view.start.clone(); // normalize timezone
+		var viewEnd = view.end.clone(); // normalize timezone
 		var normalRanges = this.eventsToNormalRanges(events); // will give us normalized dates we can use w/o copies
 		var inverseRanges = [];
 		var event0 = events[0]; // assign this to each range's `.event`
@@ -5976,8 +5976,8 @@ $.extend(Grid.prototype, {
 	// When `intervalStart` and `intervalEnd` are specified, intersect the annotations with that interval.
 	// Otherwise, let the subclass decide how it wants to slice the segments over the grid.
 	annotationToSegs: function(annotation, intervalStart, intervalEnd) {
-		var annotationStart = annotation.start.clone().stripZone(); // normalize
-		var annotationEnd = this.view.calendar.getEventEnd(annotation).stripZone(); // compute (if necessary) and normalize
+		var annotationStart = annotation.start.clone(); // normalize
+		var annotationEnd = this.view.calendar.getEventEnd(annotation); // compute (if necessary) and normalize
 		var segs;
 		var i, seg;
 
@@ -7187,8 +7187,8 @@ $.extend(TimeGrid.prototype, {
 		var colStart, colEnd;
 
 		// normalize
-		rangeStart = rangeStart.clone().stripZone();
-		rangeEnd = rangeEnd.clone().stripZone();
+		rangeStart = rangeStart.clone();
+		rangeEnd = rangeEnd.clone();
 
 		for (col = 0; col < view.colCnt; col++) {
 			cellDate = view.cellToDate(0, col); // use the View's cell system for this
@@ -7273,7 +7273,7 @@ $.extend(TimeGrid.prototype, {
 	computeDateTop: function(date, startOfDayDate) {
 		return this.computeTimeTop(
 			moment.duration(
-				date.clone().stripZone() - startOfDayDate.clone().startOf('day')
+				date.clone() - startOfDayDate.clone().startOf('day')
 			)
 		);
 	},
