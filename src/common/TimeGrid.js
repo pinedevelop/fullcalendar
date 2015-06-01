@@ -228,7 +228,7 @@ $.extend(TimeGrid.prototype, {
 	computeDateTop: function(date, startOfDayDate) {
 		return this.computeTimeTop(
 			moment.duration(
-				date.clone().stripZone() - startOfDayDate.clone().stripTime()
+				date.clone().stripZone() - startOfDayDate.clone().startOf('day')
 			)
 		);
 	},

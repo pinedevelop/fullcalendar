@@ -355,7 +355,7 @@ function commonlyAmbiguate(inputs, preserveTime) {
 
 	for (i=0; i<outputs.length; i++) {
 		if (anyAmbigTime && !preserveTime) {
-			outputs[i].stripTime();
+			outputs[i].startOf('day');
 		}
 		else if (anyAmbigZone) {
 			outputs[i].stripZone();

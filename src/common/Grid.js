@@ -417,7 +417,7 @@ $.extend(Grid.prototype, {
 	// Computes HTML classNames for a single-day cell
 	getDayClasses: function(date) {
 		var view = this.view;
-		var today = view.calendar.getNow().stripTime();
+		var today = view.calendar.getNow().startOf('day');
 		var classes = [ 'fc-' + dayIDs[date.day()] ];
 
 		if (

@@ -16,7 +16,7 @@ $.extend(BasicDayView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		var out = date.clone().stripTime().add(delta, 'days');
+		var out = date.clone().startOf('day').add(delta, 'days');
 		out = this.skipHiddenDays(out, delta < 0 ? -1 : 1);
 		return out;
 	},
@@ -24,7 +24,7 @@ $.extend(BasicDayView.prototype, {
 
 	render: function(date) {
 
-		this.start = this.intervalStart = date.clone().stripTime();
+		this.start = this.intervalStart = date.clone().startOf('day');
 		this.end = this.intervalEnd = this.start.clone().add(1, 'days');
 
 		this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));

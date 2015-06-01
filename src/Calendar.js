@@ -193,7 +193,7 @@ function Calendar(element, instanceOptions) {
 		var end = start.clone();
 
 		if (allDay) {
-			end.stripTime().add(t.defaultAllDayEventDuration);
+			end.startOf('day').add(t.defaultAllDayEventDuration);
 		}
 		else {
 			end.add(t.defaultTimedEventDuration);

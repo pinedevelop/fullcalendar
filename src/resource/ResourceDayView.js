@@ -37,7 +37,7 @@ $.extend(ResourceDayView.prototype, {
 	},
 
 	render: function(date) {
-		this.start = this.intervalStart = date.clone().stripTime();
+		this.start = this.intervalStart = date.clone().startOf('day');
 		this.end = this.intervalEnd = this.start.clone().add(1, 'days');
 
 		this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));

@@ -17,13 +17,13 @@ $.extend(AgendaWeekView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		return date.clone().stripTime().add(delta, 'weeks').startOf('week');
+		return date.clone().startOf('day').add(delta, 'weeks').startOf('week');
 	},
 
 
 	render: function(date) {
 
-		this.intervalStart = date.clone().stripTime().startOf('week');
+		this.intervalStart = date.clone().startOf('day').startOf('week');
 		this.intervalEnd = this.intervalStart.clone().add(1, 'weeks');
 
 		this.start = this.skipHiddenDays(this.intervalStart);

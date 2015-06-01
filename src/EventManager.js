@@ -572,10 +572,10 @@ function EventManager(options) { // assumed to be a calendar
 		if (allDay) {
 			// neither date should have a time
 			if (start.hasTime()) {
-				start.stripTime();
+				start.startOf('day');
 			}
 			if (end && end.hasTime()) {
-				end.stripTime();
+				end.startOf('day');
 			}
 		}
 		else {
@@ -633,7 +633,7 @@ function EventManager(options) { // assumed to be a calendar
 				}
 
 				// iterate through every day in the current range
-				date = _rangeStart.clone().stripTime(); // holds the date of the current day
+				date = _rangeStart.clone().startOf('day'); // holds the date of the current day
 				while (date.isBefore(_rangeEnd)) {
 
 					if (!dowHash || dowHash[date.day()]) { // if everyday, or this particular day-of-week
@@ -714,17 +714,17 @@ function EventManager(options) { // assumed to be a calendar
 		// normalize the new dates based on allDay
 		if (newAllDay) {
 			if (newStart) {
-				newStart = newStart.clone().stripTime();
+				newStart = newStart.clone().startOf('day');
 			}
 			if (newEnd) {
-				newEnd = newEnd.clone().stripTime();
+				newEnd = newEnd.clone().startOf('day');
 			}
 		}
 
 		// compute dateDelta
 		if (newStart) {
 			if (newAllDay) {
-				dateDelta = dayishDiff(newStart, oldStart.clone().stripTime()); // treat oldStart as allDay
+				dateDelta = dayishDiff(newStart, oldStart.clone().startOf('day')); // treat oldStart as allDay
 			}
 			else {
 				dateDelta = dayishDiff(newStart, oldStart);
@@ -788,9 +788,9 @@ function EventManager(options) { // assumed to be a calendar
 
 			// normlize newStart/newEnd to be consistent with newAllDay
 			if (newAllDay) {
-				newStart.stripTime();
+				newStart.startOf('day');
 				if (newEnd) {
-					newEnd.stripTime();
+					newEnd.startOf('day');
 				}
 			}
 			else {

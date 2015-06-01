@@ -257,7 +257,7 @@ var dayIDs = [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
 // Moments will have their timezones normalized.
 function dayishDiff(a, b) {
 	return moment.duration({
-		days: a.clone().stripTime().diff(b.clone().stripTime(), 'days'),
+		days: a.clone().startOf('day').diff(b.clone().startOf('day'), 'days'),
 		ms: a.time() - b.time()
 	});
 }

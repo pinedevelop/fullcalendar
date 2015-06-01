@@ -305,7 +305,7 @@ $.extend(DayGrid.prototype, {
 			return seg.event;
 		});
 
-		var dayStart = dayDate.clone().stripTime();
+		var dayStart = dayDate.clone().startOf('day');
 		var dayEnd = dayStart.clone().add(1, 'days');
 
 		// slice the events with a custom slicing function

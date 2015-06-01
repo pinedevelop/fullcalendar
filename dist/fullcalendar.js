@@ -524,7 +524,7 @@ function Calendar(element, instanceOptions) {
 		var end = start.clone();
 
 		if (allDay) {
-			end.stripTime().add(t.defaultAllDayEventDuration);
+			end.startOf('day').add(t.defaultAllDayEventDuration);
 		}
 		else {
 			end.add(t.defaultTimedEventDuration);
@@ -1897,10 +1897,10 @@ function EventManager(options) { // assumed to be a calendar
 		if (allDay) {
 			// neither date should have a time
 			if (start.hasTime()) {
-				start.stripTime();
+				start.startOf('day');
 			}
 			if (end && end.hasTime()) {
-				end.stripTime();
+				end.startOf('day');
 			}
 		}
 		else {
@@ -1958,7 +1958,7 @@ function EventManager(options) { // assumed to be a calendar
 				}
 
 				// iterate through every day in the current range
-				date = _rangeStart.clone().stripTime(); // holds the date of the current day
+				date = _rangeStart.clone().startOf('day'); // holds the date of the current day
 				while (date.isBefore(_rangeEnd)) {
 
 					if (!dowHash || dowHash[date.day()]) { // if everyday, or this particular day-of-week
@@ -2039,17 +2039,17 @@ function EventManager(options) { // assumed to be a calendar
 		// normalize the new dates based on allDay
 		if (newAllDay) {
 			if (newStart) {
-				newStart = newStart.clone().stripTime();
+				newStart = newStart.clone().startOf('day');
 			}
 			if (newEnd) {
-				newEnd = newEnd.clone().stripTime();
+				newEnd = newEnd.clone().startOf('day');
 			}
 		}
 
 		// compute dateDelta
 		if (newStart) {
 			if (newAllDay) {
-				dateDelta = dayishDiff(newStart, oldStart.clone().stripTime()); // treat oldStart as allDay
+				dateDelta = dayishDiff(newStart, oldStart.clone().startOf('day')); // treat oldStart as allDay
 			}
 			else {
 				dateDelta = dayishDiff(newStart, oldStart);
@@ -2113,9 +2113,9 @@ function EventManager(options) { // assumed to be a calendar
 
 			// normlize newStart/newEnd to be consistent with newAllDay
 			if (newAllDay) {
-				newStart.stripTime();
+				newStart.startOf('day');
 				if (newEnd) {
-					newEnd.stripTime();
+					newEnd.startOf('day');
 				}
 			}
 			else {
@@ -2567,17 +2567,17 @@ function ResourceManager(options) {
     // normalize the new dates based on allDay
     if (newAllDay) {
       if (newStart) {
-        newStart = newStart.clone().stripTime();
+        newStart = newStart.clone().startOf('day');
       }
       if (newEnd) {
-        newEnd = newEnd.clone().stripTime();
+        newEnd = newEnd.clone().startOf('day');
       }
     }
 
     // compute dateDelta
     if (newStart) {
       if (newAllDay) {
-        dateDelta = dayishDiff(newStart, oldStart.clone().stripTime()); // treat oldStart as allDay
+        dateDelta = dayishDiff(newStart, oldStart.clone().startOf('day')); // treat oldStart as allDay
       }
       else {
         dateDelta = dayishDiff(newStart, oldStart);
@@ -2643,9 +2643,9 @@ function ResourceManager(options) {
 
       // normlize newStart/newEnd to be consistent with newAllDay
       if (newAllDay) {
-        newStart.stripTime();
+        newStart.startOf('day');
         if (newEnd) {
-          newEnd.stripTime();
+          newEnd.startOf('day');
         }
       }
       else {
@@ -2962,7 +2962,7 @@ var dayIDs = [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
 // Moments will have their timezones normalized.
 function dayishDiff(a, b) {
 	return moment.duration({
-		days: a.clone().stripTime().diff(b.clone().stripTime(), 'days'),
+		days: a.clone().startOf('day').diff(b.clone().startOf('day'), 'days'),
 		ms: a.time() - b.time()
 	});
 }
@@ -3433,7 +3433,7 @@ function commonlyAmbiguate(inputs, preserveTime) {
 
 	for (i=0; i<outputs.length; i++) {
 		if (anyAmbigTime && !preserveTime) {
-			outputs[i].stripTime();
+			outputs[i].startOf('day');
 		}
 		else if (anyAmbigZone) {
 			outputs[i].stripZone();
@@ -5185,7 +5185,7 @@ $.extend(Grid.prototype, {
 	// Computes HTML classNames for a single-day cell
 	getDayClasses: function(date) {
 		var view = this.view;
-		var today = view.calendar.getNow().stripTime();
+		var today = view.calendar.getNow().startOf('day');
 		var classes = [ 'fc-' + dayIDs[date.day()] ];
 
 		if (
@@ -6993,7 +6993,7 @@ $.extend(DayGrid.prototype, {
 			return seg.event;
 		});
 
-		var dayStart = dayDate.clone().stripTime();
+		var dayStart = dayDate.clone().startOf('day');
 		var dayEnd = dayStart.clone().add(1, 'days');
 
 		// slice the events with a custom slicing function
@@ -7273,7 +7273,7 @@ $.extend(TimeGrid.prototype, {
 	computeDateTop: function(date, startOfDayDate) {
 		return this.computeTimeTop(
 			moment.duration(
-				date.clone().stripZone() - startOfDayDate.clone().stripTime()
+				date.clone().stripZone() - startOfDayDate.clone().startOf('day')
 			)
 		);
 	},
@@ -8648,7 +8648,7 @@ function View(calendar) {
 
 	// date -> day offset
 	function dateToDayOffset(date) {
-		return date.clone().stripTime().diff(t.start, 'days');
+		return date.clone().startOf('day').diff(t.start, 'days');
 	}
 
 	// day offset -> cell offset
@@ -8750,12 +8750,12 @@ function View(calendar) {
 	// Returns the date range of the full days the given range visually appears to occupy.
 	// Returns object with properties `start` (moment) and `end` (moment, exclusive end).
 	function computeDayRange(start, end) {
-		var startDay = start.clone().stripTime(); // the beginning of the day the range starts
+		var startDay = start.clone().startOf('day'); // the beginning of the day the range starts
 		var endDay;
 		var endTimeMS;
 
 		if (end) {
-			endDay = end.clone().stripTime(); // the beginning of the day the range exclusively ends
+			endDay = end.clone().startOf('day'); // the beginning of the day the range exclusively ends
 			endTimeMS = +end.time(); // # of milliseconds into `endDay`
 
 			// If the end time is actually inclusively part of the next day and is equal to or
@@ -9160,14 +9160,14 @@ $.extend(MonthView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		return date.clone().stripTime().add(delta, 'months').startOf('month');
+		return date.clone().startOf('day').add(delta, 'months').startOf('month');
 	},
 
 
 	render: function(date) {
 		var rowCnt;
 
-		this.intervalStart = date.clone().stripTime().startOf('month');
+		this.intervalStart = date.clone().startOf('day').startOf('month');
 		this.intervalEnd = this.intervalStart.clone().add(1, 'months');
 
 		this.start = this.intervalStart.clone();
@@ -9239,13 +9239,13 @@ $.extend(BasicWeekView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		return date.clone().stripTime().add(delta, 'weeks').startOf('week');
+		return date.clone().startOf('day').add(delta, 'weeks').startOf('week');
 	},
 
 
 	render: function(date) {
 
-		this.intervalStart = date.clone().stripTime().startOf('week');
+		this.intervalStart = date.clone().startOf('day').startOf('week');
 		this.intervalEnd = this.intervalStart.clone().add(1, 'weeks');
 
 		this.start = this.skipHiddenDays(this.intervalStart);
@@ -9281,7 +9281,7 @@ $.extend(BasicDayView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		var out = date.clone().stripTime().add(delta, 'days');
+		var out = date.clone().startOf('day').add(delta, 'days');
 		out = this.skipHiddenDays(out, delta < 0 ? -1 : 1);
 		return out;
 	},
@@ -9289,7 +9289,7 @@ $.extend(BasicDayView.prototype, {
 
 	render: function(date) {
 
-		this.start = this.intervalStart = date.clone().stripTime();
+		this.start = this.intervalStart = date.clone().startOf('day');
 		this.end = this.intervalEnd = this.start.clone().add(1, 'days');
 
 		this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));
@@ -9750,13 +9750,13 @@ $.extend(AgendaWeekView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		return date.clone().stripTime().add(delta, 'weeks').startOf('week');
+		return date.clone().startOf('day').add(delta, 'weeks').startOf('week');
 	},
 
 
 	render: function(date) {
 
-		this.intervalStart = date.clone().stripTime().startOf('week');
+		this.intervalStart = date.clone().startOf('day').startOf('week');
 		this.intervalEnd = this.intervalStart.clone().add(1, 'weeks');
 
 		this.start = this.skipHiddenDays(this.intervalStart);
@@ -9793,7 +9793,7 @@ $.extend(AgendaDayView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		var out = date.clone().stripTime().add(delta, 'days');
+		var out = date.clone().startOf('day').add(delta, 'days');
 		out = this.skipHiddenDays(out, delta < 0 ? -1 : 1);
 		return out;
 	},
@@ -9801,7 +9801,7 @@ $.extend(AgendaDayView.prototype, {
 
 	render: function(date) {
 
-		this.start = this.intervalStart = date.clone().stripTime();
+		this.start = this.intervalStart = date.clone().startOf('day');
 		this.end = this.intervalEnd = this.start.clone().add(1, 'days');
 
 		this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));
@@ -9910,7 +9910,7 @@ $.extend(ResourceDayView.prototype, {
 	},
 
 	render: function(date) {
-		this.start = this.intervalStart = date.clone().stripTime();
+		this.start = this.intervalStart = date.clone().startOf('day');
 		this.end = this.intervalEnd = this.start.clone().add(1, 'days');
 
 		this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));

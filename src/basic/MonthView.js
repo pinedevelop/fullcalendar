@@ -20,14 +20,14 @@ $.extend(MonthView.prototype, {
 
 
 	incrementDate: function(date, delta) {
-		return date.clone().stripTime().add(delta, 'months').startOf('month');
+		return date.clone().startOf('day').add(delta, 'months').startOf('month');
 	},
 
 
 	render: function(date) {
 		var rowCnt;
 
-		this.intervalStart = date.clone().stripTime().startOf('month');
+		this.intervalStart = date.clone().startOf('day').startOf('month');
 		this.intervalEnd = this.intervalStart.clone().add(1, 'months');
 
 		this.start = this.intervalStart.clone();

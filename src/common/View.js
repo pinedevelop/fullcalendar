@@ -730,7 +730,7 @@ function View(calendar) {
 
 	// date -> day offset
 	function dateToDayOffset(date) {
-		return date.clone().stripTime().diff(t.start, 'days');
+		return date.clone().startOf('day').diff(t.start, 'days');
 	}
 
 	// day offset -> cell offset
@@ -832,12 +832,12 @@ function View(calendar) {
 	// Returns the date range of the full days the given range visually appears to occupy.
 	// Returns object with properties `start` (moment) and `end` (moment, exclusive end).
 	function computeDayRange(start, end) {
-		var startDay = start.clone().stripTime(); // the beginning of the day the range starts
+		var startDay = start.clone().startOf('day'); // the beginning of the day the range starts
 		var endDay;
 		var endTimeMS;
 
 		if (end) {
-			endDay = end.clone().stripTime(); // the beginning of the day the range exclusively ends
+			endDay = end.clone().startOf('day'); // the beginning of the day the range exclusively ends
 			endTimeMS = +end.time(); // # of milliseconds into `endDay`
 
 			// If the end time is actually inclusively part of the next day and is equal to or

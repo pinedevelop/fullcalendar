@@ -184,17 +184,17 @@ function ResourceManager(options) {
     // normalize the new dates based on allDay
     if (newAllDay) {
       if (newStart) {
-        newStart = newStart.clone().stripTime();
+        newStart = newStart.clone().startOf('day');
       }
       if (newEnd) {
-        newEnd = newEnd.clone().stripTime();
+        newEnd = newEnd.clone().startOf('day');
       }
     }
 
     // compute dateDelta
     if (newStart) {
       if (newAllDay) {
-        dateDelta = dayishDiff(newStart, oldStart.clone().stripTime()); // treat oldStart as allDay
+        dateDelta = dayishDiff(newStart, oldStart.clone().startOf('day')); // treat oldStart as allDay
       }
       else {
         dateDelta = dayishDiff(newStart, oldStart);
@@ -260,9 +260,9 @@ function ResourceManager(options) {
 
       // normlize newStart/newEnd to be consistent with newAllDay
       if (newAllDay) {
-        newStart.stripTime();
+        newStart.startOf('day');
         if (newEnd) {
-          newEnd.stripTime();
+          newEnd.startOf('day');
         }
       }
       else {
